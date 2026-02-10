@@ -1,0 +1,220 @@
+.lb-header { margin-bottom: 1.5rem; }
+
+.lb-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.25rem;
+}
+
+.lb-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.lb-region-tabs, .lb-queue-tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Tier Tabs */
+.lb-tier-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.lb-tier-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--surface-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.857rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: border-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+.lb-tier-tab:hover {
+  border-color: var(--tier-color);
+  color: var(--tier-color);
+}
+
+.lb-tier-tab.active {
+  border-color: var(--tier-color);
+  color: var(--tier-color);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--tier-color) 25%, transparent);
+  background: color-mix(in srgb, var(--tier-color) 5%, var(--surface-dark));
+}
+
+.lb-tier-tab-icon { font-size: 1.125rem; }
+
+.lb-tier-tab-count {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.0625rem 0.375rem;
+  border-radius: 2px;
+  font-size: 0.714rem;
+}
+
+/* Loading / Error */
+.lb-loading, .lb-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 0;
+}
+
+.lb-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.786rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+/* Table */
+.lb-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.857rem;
+}
+
+.lb-table thead {
+  background: var(--surface-dark);
+}
+
+.lb-table th {
+  padding: 0.625rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.714rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.lb-th-rank { width: 50px; text-align: center; }
+.lb-th-name { min-width: 180px; }
+
+.lb-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.lb-row:hover {
+  background: rgba(13, 185, 242, 0.04);
+}
+
+.lb-row td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.lb-rank { text-align: center; }
+
+.lb-rank-num {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.lb-rank-num.top {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.lb-summoner-name {
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.lb-lp {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.lb-lp-value {
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 0.929rem;
+}
+
+.lb-lp-label {
+  font-size: 0.714rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.lb-wr {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lb-wr-bar {
+  width: 48px;
+  height: 4px;
+  background: var(--border-color);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.lb-wr-fill {
+  height: 100%;
+  width: var(--wr);
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.lb-wr-text {
+  font-weight: 600;
+  font-size: 0.786rem;
+  color: var(--text-secondary);
+}
+
+.lb-wr-text.high { color: var(--primary); }
+.lb-wr-text.low { color: var(--loss); }
+
+.lb-w { color: var(--primary); font-weight: 600; }
+.lb-l { color: var(--loss); font-weight: 600; }
+
+.lb-more {
+  text-align: center;
+  font-size: 0.786rem;
+  padding: 0.75rem 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin { animation: spin 1s linear infinite; }

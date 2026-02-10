@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Summoner Overview Dashboard V1 - Riot Stats Hub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0db9f2",
+                        "primary-dark": "#0a9acb",
+                        "secondary": "#ff4d4d", // Red for Defeat
+                        "secondary-dark": "#cc3d3d",
+                        "background-light": "#f5f8f8",
+                        "background-dark": "#101e22",
+                        "surface-dark": "#16262b",
+                        "surface-light": "#1c2e34",
+                        "accent-blue": "#0db9f2",
+                        "accent-red": "#ff4d4d",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "sm": "0.125rem",
+                        "md": "0.25rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "neon": "0 0 15px rgba(13, 185, 242, 0.4)",
+                        "neon-strong": "0 0 25px rgba(13, 185, 242, 0.6)",
+                        "neon-red": "0 0 10px rgba(255, 77, 77, 0.3)",
+                    },
+                    backgroundImage: {
+                        'scanline': 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .scanline-bg {
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #101e22; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2d3b42; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0db9f2; 
+        }.text-shadow-neon {
+            text-shadow: 0 0 5px rgba(13, 185, 242, 0.6);
+        }
+        .border-t-glow-blue {
+            box-shadow: 0 -4px 10px -2px rgba(13, 185, 242, 0.3) inset;
+        }
+        .border-t-glow-red {
+            box-shadow: 0 -4px 10px -2px rgba(255, 77, 77, 0.3) inset;
+        }
+        .clip-diagonal {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 95% 100%, 0 100%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 font-display min-h-screen flex flex-col overflow-x-hidden selection:bg-primary selection:text-white">
+<div class="fixed inset-0 scanline-bg opacity-20 z-50 pointer-events-none bg-scanline"></div>
+<nav class="sticky top-0 z-40 bg-background-light/95 dark:bg-background-dark/95 border-b border-slate-200 dark:border-slate-800 backdrop-blur-sm">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16">
+<div class="flex items-center gap-8">
+<div class="flex-shrink-0 flex items-center gap-2 group cursor-pointer">
+<span class="material-icons text-primary text-3xl group-hover:animate-pulse">bolt</span>
+<span class="font-bold text-xl tracking-tight text-white group-hover:text-primary transition-colors">RIOT STATS HUB</span>
+</div>
+<div class="hidden md:block">
+<div class="ml-10 flex items-baseline space-x-1">
+<a class="bg-primary/10 text-primary px-4 py-2 rounded-sm text-sm font-bold border-b-2 border-primary uppercase tracking-wide hover:bg-primary/20 transition-all" href="#">Overview</a>
+<a class="text-slate-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide transition-colors" href="#">Champions</a>
+<a class="text-slate-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide transition-colors" href="#">Leaderboards</a>
+<a class="text-slate-400 hover:text-white hover:bg-white/5 px-4 py-2 rounded-sm text-sm font-bold uppercase tracking-wide transition-colors" href="#">Pro Build</a>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative group">
+<input class="bg-surface-dark border border-slate-700 rounded-sm py-1.5 pl-4 pr-10 text-sm focus:ring-1 focus:ring-primary focus:border-primary w-64 placeholder-slate-600 text-slate-300 transition-all focus:w-72" placeholder="Search Summoner..." type="text"/>
+<span class="material-icons absolute right-2 top-1.5 text-slate-600 group-focus-within:text-primary transition-colors text-lg">search</span>
+</div>
+<div class="relative">
+<div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-blue-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+<img alt="User Profile" class="relative h-9 w-9 rounded-full border border-slate-700 bg-surface-dark" data-alt="User profile avatar small" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnStc5Ax52akkjo2W82vQvk3DEldI4g2R5GwP-mbKMOY3_cV55fUl6mRTKz87jFtUqkm5fOAN0UtsMlTdihCMrt5azjUnMwLGrJdGCqYZnjbyVPb5Id5xvPP_Gbk8nHlAkEZBiaw0vRBgP5W_xdGf_SRlorqC_BZMy2jSrxAzQgPnkIhIpiBML0akBppdfmnJ8lEEaWZhgE40TppuAGwZXl4C5gpg_KiznTWdHP9ypya6v7bLBbryXvRuCHxfIiOuBwrMkFyHeDgs"/>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+<div class="relative bg-surface-dark border border-slate-800 p-0 mb-6 overflow-hidden group rounded-sm shadow-lg">
+<div class="absolute inset-0 bg-[url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg')] bg-cover bg-center opacity-10"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-background-dark via-background-dark/95 to-transparent"></div>
+<div class="absolute inset-0 bg-[linear-gradient(rgba(13,185,242,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(13,185,242,0.03)_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+<div class="relative flex flex-col md:flex-row items-center md:items-start gap-8 z-10 p-8">
+<div class="relative shrink-0">
+<div class="w-32 h-32 rounded-lg overflow-hidden border-2 border-primary shadow-neon relative group">
+<div class="absolute inset-0 border-[3px] border-primary/30 z-20 pointer-events-none"></div>
+<img alt="Summoner Icon" class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110" data-alt="Abstract mystical icon representing a summoner avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlcBfDD0WOPUyVv89tqn6ubeAKSMqsjWWO-9OL5IR0_YtI4Mdw5RlEUknrnPBhu_--39FPvlNyGb4h7PKnqsrfpQ5c9amJER_3H1xN16p_yDqFlo0jSIDfgnAjXkcpj4oxUIqcXQnhes6VgzxDAbdVNkTGyGJjNytcUSAqmY1Y-267OaPVogJf1ewXFAo-BD0faSeOr65Ed_s_jG7LRHdlA9MvvPVLZif6PULHa6urgkLHfKD-JgNfR3emDVtDsBMZHq44Qp7KGvw"/>
+</div>
+<div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-slate-900 border border-primary text-xs font-bold px-3 py-1 rounded-sm text-primary shadow-lg tracking-wider whitespace-nowrap z-30">
+                        LVL 542
+                    </div>
+</div>
+<div class="flex-1 text-center md:text-left pt-2">
+<div class="flex items-end justify-center md:justify-start gap-3 mb-2">
+<h1 class="text-5xl font-bold text-white tracking-tighter text-shadow-neon">FAKER</h1>
+<span class="px-2 py-1 mb-2 rounded-sm bg-primary/10 text-primary text-xs font-bold border border-primary/30 uppercase tracking-widest">KR</span>
+</div>
+<div class="flex items-center justify-center md:justify-start gap-4 text-sm text-slate-400 mb-6">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_5px_rgba(34,197,94,0.6)]"></span> Online</span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Prev: <span class="text-white font-medium">Challenger 1,240LP</span></span>
+<span class="w-1 h-1 rounded-full bg-slate-700"></span>
+<span>Ladder: <span class="text-primary">#42</span></span>
+</div>
+<div class="flex flex-wrap justify-center md:justify-start gap-3">
+<button class="px-6 py-2.5 bg-primary hover:bg-primary-dark text-background-dark font-bold uppercase text-sm rounded-sm shadow-neon transition-all hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-2">
+<span class="material-icons text-sm">refresh</span> Update
+                    </button>
+<button class="px-6 py-2.5 bg-transparent hover:bg-white/5 text-white font-bold uppercase text-sm rounded-sm border border-slate-600 hover:border-white transition-all flex items-center gap-2">
+<span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> Live Game
+                    </button>
+</div>
+</div>
+<div class="flex flex-col items-center justify-center mr-0 md:mr-8 mt-6 md:mt-0 bg-surface-light/30 p-6 rounded-md border border-slate-800/50 backdrop-blur-sm">
+<div class="relative w-28 h-28 flex items-center justify-center group cursor-help">
+<div class="absolute inset-0 bg-primary/20 blur-2xl rounded-full animate-pulse"></div>
+<div class="w-24 h-24 bg-gradient-to-br from-cyan-900 to-blue-900 clip-hexagon flex items-center justify-center shadow-neon relative z-10 border-[3px] border-cyan-400 group-hover:scale-105 transition-transform duration-300" style="clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);">
+<span class="material-icons text-cyan-100 text-5xl drop-shadow-md">diamond</span>
+</div>
+<div class="absolute top-0 right-4 w-1 h-1 bg-white rounded-full animate-ping"></div>
+<div class="absolute bottom-4 left-4 w-1 h-1 bg-white rounded-full animate-ping delay-300"></div>
+</div>
+<div class="mt-4 text-center">
+<h2 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-400 tracking-widest drop-shadow-sm">DIAMOND I</h2>
+<p class="text-xs text-slate-400 font-mono mt-1">42 LP <span class="text-slate-600">|</span> Top 0.42%</p>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<div class="bg-surface-dark border border-slate-800 rounded-sm p-0 overflow-hidden relative group hover:border-primary/50 transition-colors">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="p-5 flex items-center gap-5">
+<div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center border border-slate-700 shadow-inner group-hover:border-primary/30 transition-colors">
+<span class="material-icons text-primary text-3xl drop-shadow-[0_0_8px_rgba(13,185,242,0.5)]">emoji_events</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Ranked Solo/Duo</h3>
+<span class="text-xs text-green-400 font-mono bg-green-400/10 px-1.5 py-0.5 rounded border border-green-400/20">WR 58%</span>
+</div>
+<div class="text-2xl font-bold text-white mb-0.5">Diamond I</div>
+<div class="text-sm text-slate-500 font-mono mb-2"><span class="text-white font-bold">42 LP</span> <span class="mx-1 text-slate-700">|</span> 142W 102L</div>
+<div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[58%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-slate-800 rounded-sm p-0 overflow-hidden relative group hover:border-slate-600 transition-colors">
+<div class="absolute top-0 left-0 w-1 h-full bg-slate-600"></div>
+<div class="p-5 flex items-center gap-5">
+<div class="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center border border-slate-700 shadow-inner">
+<span class="material-icons text-slate-400 text-3xl">groups</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h3 class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-1">Ranked Flex</h3>
+<span class="text-xs text-slate-400 font-mono bg-slate-700/30 px-1.5 py-0.5 rounded border border-slate-700">WR 53%</span>
+</div>
+<div class="text-2xl font-bold text-white mb-0.5">Platinum II</div>
+<div class="text-sm text-slate-500 font-mono mb-2"><span class="text-white font-bold">10 LP</span> <span class="mx-1 text-slate-700">|</span> 45W 40L</div>
+<div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-slate-500 w-[53%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-slate-800 rounded-sm p-5 flex items-center justify-between hover:border-slate-700 transition-colors relative overflow-hidden">
+<div class="z-10">
+<h3 class="text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-3">Last 20 Games</h3>
+<div class="flex items-baseline gap-2 mb-1">
+<div class="text-3xl font-bold text-white">14<span class="text-sm text-slate-500 font-normal mx-1">W</span>6<span class="text-sm text-slate-500 font-normal ml-1">L</span></div>
+</div>
+<div class="text-sm text-primary font-bold font-mono bg-primary/10 inline-block px-2 py-0.5 rounded border border-primary/20">3.42 KDA</div>
+</div>
+<div class="relative w-24 h-24 flex items-center justify-center z-10">
+<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+<circle class="text-slate-800" cx="18" cy="18" fill="none" r="15.9155" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary drop-shadow-[0_0_8px_rgba(13,185,242,0.6)]" cx="18" cy="18" fill="none" r="15.9155" stroke="currentColor" stroke-dasharray="70, 100" stroke-width="3"></circle>
+</svg>
+<div class="absolute flex flex-col items-center justify-center">
+<span class="text-lg font-bold text-white">70%</span>
+<span class="text-[9px] text-slate-400 uppercase tracking-tight">Win Rate</span>
+</div>
+</div>
+<div class="absolute right-0 top-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-dark border border-slate-800 rounded-sm overflow-hidden">
+<div class="bg-surface-light/30 px-4 py-3 border-b border-slate-800 flex justify-between items-center">
+<h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+<span class="material-icons text-sm text-primary">star</span> Top Champions
+                </h3>
+<a class="text-[10px] uppercase font-bold text-slate-500 hover:text-white transition-colors" href="#">View All</a>
+</div>
+<div class="divide-y divide-slate-800/50">
+<div class="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors group cursor-pointer border-l-2 border-l-transparent hover:border-l-primary">
+<div class="relative w-10 h-10">
+<img alt="Ahri" class="w-full h-full rounded border border-slate-600" data-alt="Fantasy portrait representing Ahri champion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpYVe9rkUo2LBNpuPSH0ngFu4Gm6cBOBE6X2FnK8SU9KEwtr0U6xKZ9xuvzn9blC95Jw-iwEatdJgwT4llWp9Bj-V9CeKyGt6QhEFHlcMEEWi88glLyR8hxBllPzMuKWo1w7fwHMXTapiugM4oRiAYXXfzG69NaPoD_jRIVrNTi64AIWZG00qjciNhty-rtmicm8kGB309slVl-ZgggUQ5f21LrcDlANhVZeuS5hwfPoENiBOo7AHA8yuKBbo3-PNmw-sta0hCKFw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-white text-sm truncate">Ahri</span>
+<span class="text-xs text-slate-400 font-mono">1.2M</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-full bg-slate-800 h-1.5 rounded-sm overflow-hidden">
+<div class="bg-gradient-to-r from-primary/60 to-primary h-full rounded-sm shadow-[0_0_5px_rgba(13,185,242,0.5)]" style="width: 95%"></div>
+</div>
+<span class="text-[10px] text-primary font-bold">Lvl 7</span>
+</div>
+</div>
+</div>
+<div class="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors group cursor-pointer border-l-2 border-l-transparent hover:border-l-blue-500">
+<div class="relative w-10 h-10">
+<img alt="LeBlanc" class="w-full h-full rounded border border-slate-600" data-alt="Dark fantasy portrait representing LeBlanc champion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOXcrEwVvYADNuMRMZe6_tV49orwXNDUjynXNAUAY5umpXa98Nnywm2E2DkQSFepEwLswVloJhkgjdF80tdqTkTz4duEdDl4E6yA9Q2lagHNw7V6G6EBFRUcn0V0FH7tpgBw47bGaOo0OogWa1xsWj6dEuQEop4xxGKea_3oeCAdSnO6nuYrPP21AOuk0G6QPpXNg09l7DCmMe_d7L0Ry12mYku8hhoMw2RPFOnBTSxuCh7ont3XzI1Do6KJ1pWY7JhOvw5MPaOHU"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-white text-sm truncate">LeBlanc</span>
+<span class="text-xs text-slate-400 font-mono">900K</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-full bg-slate-800 h-1.5 rounded-sm overflow-hidden">
+<div class="bg-gradient-to-r from-blue-500/60 to-blue-500 h-full rounded-sm" style="width: 75%"></div>
+</div>
+<span class="text-[10px] text-slate-400 font-bold">Lvl 7</span>
+</div>
+</div>
+</div>
+<div class="p-3 flex items-center gap-3 hover:bg-white/5 transition-colors group cursor-pointer border-l-2 border-l-transparent hover:border-l-blue-500">
+<div class="relative w-10 h-10">
+<img alt="Azir" class="w-full h-full rounded border border-slate-600" data-alt="Mystical portrait representing Azir champion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj0-oeJ75u8g0h9rfyjADQ73zOtBQtN2g8dDugo-16HVPFitobVHL5UAAZe1m9kQQHPKzd_HlCGud5UfQvnaE-P6xynjLhXOkKCMCQZjfaKXYmIWRrDnPGhC7W_kNmKtxo8DENXspu9Npc6RSDcVBtUsapfvr3GXClaJ3hygqhHgEmBrGnf8OOPU3p0QLNwO_HwyBPVzYT61hAJlvnlAUu9KUYEPiiIEtbqhjTkqSan2oUGqoBvE2AyFvjPp3zILnB3h4EkMaP5F0"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<span class="font-bold text-white text-sm truncate">Azir</span>
+<span class="text-xs text-slate-400 font-mono">850K</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-full bg-slate-800 h-1.5 rounded-sm overflow-hidden">
+<div class="bg-gradient-to-r from-blue-500/60 to-blue-500 h-full rounded-sm" style="width: 70%"></div>
+</div>
+<span class="text-[10px] text-slate-400 font-bold">Lvl 7</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-dark border border-slate-800 rounded-sm overflow-hidden">
+<div class="bg-surface-light/30 px-4 py-3 border-b border-slate-800">
+<h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
+<span class="material-icons text-sm text-slate-400">people</span> Recently Played With
+                </h3>
+</div>
+<table class="w-full text-left border-collapse">
+<thead class="text-[10px] uppercase text-slate-500 border-b border-slate-800/50 bg-slate-900/30">
+<tr>
+<th class="px-3 py-2 font-bold pl-4">Summoner</th>
+<th class="px-2 py-2 font-bold text-center">Games</th>
+<th class="px-3 py-2 font-bold text-right pr-4">Winrate</th>
+</tr>
+</thead>
+<tbody class="text-xs divide-y divide-slate-800/50">
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
+<td class="px-3 py-3 pl-4 font-bold text-white truncate max-w-[100px] group-hover:text-primary transition-colors">Oner</td>
+<td class="px-2 py-3 text-slate-400 text-center font-mono">8</td>
+<td class="px-3 py-3 pr-4 text-right"><span class="text-primary font-bold">75%</span></td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
+<td class="px-3 py-3 pl-4 font-bold text-white truncate max-w-[100px] group-hover:text-primary transition-colors">Keria</td>
+<td class="px-2 py-3 text-slate-400 text-center font-mono">5</td>
+<td class="px-3 py-3 pr-4 text-right"><span class="text-secondary font-bold">40%</span></td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group cursor-pointer">
+<td class="px-3 py-3 pl-4 font-bold text-white truncate max-w-[100px] group-hover:text-primary transition-colors">Gumayusi</td>
+<td class="px-2 py-3 text-slate-400 text-center font-mono">4</td>
+<td class="px-3 py-3 pr-4 text-right"><span class="text-slate-300 font-bold">50%</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-gradient-to-b from-slate-900 to-black border border-slate-800 rounded-sm p-4 flex flex-col items-center justify-center h-32 text-center relative overflow-hidden group cursor-pointer">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="text-[10px] text-slate-600 uppercase mb-1 tracking-widest border border-slate-800 px-1 rounded">Ad</span>
+<p class="text-slate-300 text-sm font-bold mt-1">Master Your Mechanics</p>
+<p class="text-slate-500 text-xs mb-2">Pro Coaching Available Now</p>
+<button class="mt-1 text-primary text-xs font-bold uppercase tracking-wide border border-primary/30 px-3 py-1.5 rounded-sm hover:bg-primary hover:text-black transition-all">Learn More</button>
+</div>
+</div>
+<div class="lg:col-span-8 space-y-3">
+<div class="flex items-center justify-between mb-4 px-1">
+<h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+<span class="material-icons text-sm text-slate-400">history</span> Match History
+            </h3>
+<div class="flex p-0.5 bg-surface-dark rounded border border-slate-800">
+<button class="bg-primary/20 text-primary px-3 py-1 rounded-sm text-[10px] uppercase font-bold border border-primary/30 shadow-sm">All</button>
+<button class="text-slate-500 hover:text-slate-300 px-3 py-1 rounded-sm text-[10px] uppercase font-bold transition-colors">Ranked</button>
+<button class="text-slate-500 hover:text-slate-300 px-3 py-1 rounded-sm text-[10px] uppercase font-bold transition-colors">Normal</button>
+</div>
+</div>
+<div class="group relative bg-surface-dark/80 hover:bg-surface-light border-l-[3px] border-l-primary border-y border-r border-slate-800 rounded-r-sm p-0 transition-all duration-200 overflow-visible mt-2">
+<div class="absolute -left-[3px] top-0 bottom-0 w-[3px] bg-primary shadow-[0_0_10px_2px_rgba(13,185,242,0.4)]"></div>
+<div class="relative flex flex-col sm:flex-row items-stretch min-h-[90px]">
+<div class="w-full sm:w-28 bg-gradient-to-b from-primary/10 to-transparent p-3 flex flex-row sm:flex-col justify-between sm:justify-center border-b sm:border-b-0 sm:border-r border-slate-800/50">
+<div>
+<div class="text-primary font-bold text-sm tracking-wide uppercase mb-1">Victory</div>
+<div class="text-[10px] font-bold text-slate-400">Ranked Solo</div>
+</div>
+<div class="text-right sm:text-left mt-0 sm:mt-2">
+<div class="text-xs text-white font-mono">25m 12s</div>
+<div class="text-[10px] text-slate-500">2 hours ago</div>
+</div>
+</div>
+<div class="flex-1 p-3 flex flex-col sm:flex-row items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="relative w-12 h-12 shrink-0">
+<img alt="Ahri" class="w-full h-full rounded-sm border border-slate-600 object-cover" data-alt="Champion icon Ahri" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9iyZLvboUHOEBiCKdF7xE77CZnbaDCmf0p-SvsZV-i_RI7vdc0ng-jqGbLSJBfR5RTB_Vq-Fk1LVWRAuQboUBJv9AnL3UWNxQFOkqXrCbtNEyatxKJTRDPhVQNGWyDJSU1712Yxgqq7crojERL_x8sTG3bFUbgd-dchvVhHML3cLuFtAFxY2ZVFM_il8wRaBGAnKiJwjZ35VDhaQSRLE2YIc3flaSn-nCYNNfJMHv5DloEyFRukpSdVou8QM1aZOKzjACptnNiUs"/>
+<div class="absolute -bottom-1 -right-1 bg-slate-900 text-[10px] font-bold text-white px-1 rounded-sm border border-slate-700">16</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Flash" class="w-full h-full" data-alt="Flash spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_NerqXoR7ZTS7FSYMX7CH2ul0K2hLFhk-xmJ5_P5NE8tUf15nT78xr_zGgIkJ9lxPrHxZpZZ2e3lebwj3-ktYTFV-Q9uVWFapLitedaZGtCdp9hbiIsgnZcvHkiT1XxJ1feQ2TX7D5RYew89JQe9ZNmc4X-MHgavGL1fdrDvAFI-6ZvnZ6Pd5ORgF5clB03wvNuQ0iTBH6fKwHMJwOJHM8x_dIlJAKny731F1KreIyJFC2cDFkhkKou3EHgQ695dxn7TPY70MQ8k"/></div>
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Ignite" class="w-full h-full" data-alt="Ignite spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCme6idTWqT_SBWnr9vNZ52OI5t4XdVkNhrmPkTr5c35rBicg--CRlFOr-SyWJZFeN-YC0p_6Vw8XGbZdGI6ljioDtEzx0CNf4K5QvQ_XFmTHNdReWN_wqBCgTFII8zYuajmdTG-SKIIq3bZi3NdbsqPQliekUg6d4gGsMy7FHlRzbfSQv2LSK5JO6hJzCZIbmmp5Vdmq7dEnkS9HrgMAhk_oOPHMYyXArkLhO_a5D_eBRRjEKfAIXsVl9x3WztLXj3L2xdoc7kx_4"/></div>
+</div>
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R1</div>
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R2</div>
+</div>
+</div>
+</div>
+<div class="flex-1 text-center min-w-[120px] flex flex-col justify-center">
+<div class="text-xl font-bold text-white tracking-widest mb-1">
+                                    12<span class="text-slate-600 mx-1">/</span><span class="text-secondary">2</span><span class="text-slate-600 mx-1">/</span>8
+                                </div>
+<div class="text-xs text-slate-400 font-mono"><span class="text-white font-bold">10.00</span> KDA</div>
+<div class="mt-1">
+<span class="inline-block px-1.5 py-px bg-secondary/20 text-secondary text-[9px] font-bold rounded-sm border border-secondary/30 uppercase tracking-wider">Double Kill</span>
+</div>
+</div>
+<div class="text-center sm:text-left w-24 hidden sm:block border-l border-slate-800 pl-4 h-full flex flex-col justify-center">
+<div class="text-xs text-slate-300 mb-1">CS 215 <span class="text-slate-500">(8.5)</span></div>
+<div class="text-xs text-secondary font-bold">P/Kill 62%</div>
+<div class="text-[10px] text-slate-500 mt-0.5">Control Ward 3</div>
+</div>
+<div class="flex gap-1 flex-wrap w-36 justify-center sm:justify-start content-center">
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden relative group/item">
+<img alt="Luden" class="w-full h-full" data-alt="Item icon Ludens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4qmrt-5ROwtCM1p0xI9mtP4vsxt8AULnZlXENxXZufKq0vaHTscTLJ0CUXnWSDkPmRF3Ihx4Azk39PBhnGRj_p0Zqr2W8HVDo8bnOA0mrzSgo55qENgx0Je51jYqpQztL6sC1dVszMILJj2_BnKqnfiyzXrk3fMCdpY6E9-gXSKqZSZDWqhDuKlCnbO282mmtuf98OhjTfoIGQtTzFKwklZmXewyS6UBne1z89zpxYSknWBenDec8rDyQNgTz3neD7Fle3GwXLeU"/>
+</div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Zhonyas" class="w-full h-full" data-alt="Item icon Zhonyas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzGIiRAmYZW0NIHaO4TkxqjTQrLOzJ_iVfbXR4w5OGSNwQwY6kxhb60WnT3UIVD8FqHj0KZ_iO4okUzbTeI7ZkbY5BNfFZIwCwUXnLM4f6yQx7u2q6d3vwOOs8YVWXjtVe3jO0jqpuhw1oMb5dIRvuifz6kvhvQ8LtzjqWvYg6VEX1EkYNnfnJ_b3eDS2Rs8QWK6p79TzYgxFyDjocC-Cgxg4c-_HOhJblKS5siL_4uVCDvF1cO0o0XgHH8f-yi7sdkIStRk1TZ6s"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Rabadon" class="w-full h-full" data-alt="Item icon Rabadons" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQW-eKy_O7RtFTT3g4doUOVe1YYYrnzIArg629LL5nHOi-qHEZwPx8B67u50ZONaX3_F5TxVMPSiVtavszWm5XXhtHB4lsWM7OtpKld_-kbD-SKX14yoE-VeOOwGvNz0UCsTadb_worYuDZx_Pqxt1_sjowZFtrr4nMMvA6A9l_h8LbEabUFEoTNusk8Mo-THBnFZkS7u8Uiz4dmNWwkknrIR5V1BUd0Zotb0sdFLg55EQ1qNE9c4_tpcXeJYpl1JsirRtMKAWcVo"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Shadowflame" class="w-full h-full" data-alt="Item icon Shadowflame" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSPnAlmY8rKbwwkeG54P-LeBGvOs_5jP2RZvfvLDlAWCphL2WyIi-F0t8xzZDLGZ9LFUnFSH40wMXV2lP0TDqntmIxSLdzMAK2vVkC4UBVSGFwgS2RT2vsvB-VW140X8f08j_5LoJvOi3umEZaQEuPfcbQLnzO-N1DXOjhUy6EOg-bTCe-DVM8HbJvYSyH-fVHL267VnxWOw9wi9cfLo8ZjVL3MxeluRGnuBKAVR3colArTGXEzNMe5I-hAVHZF6vupNeO4hep3Oo"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Boots" class="w-full h-full" data-alt="Item icon Boots" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmteQGiWi_jSwVLKcBldQrbTm7JPFGjc3txBLBZ1jF-RPAry0R0yhA1OpnRMe0qJiXMAMJ9k2wTriKwKNuY4x8cxwHbVSOk4o89en5zuP27kbDRcQifjBK5BrBdsBcxJmIg1W7oFmh8z23femxMRi88x9EWN4ySeYe3JuL0Qxpb5wNoe0qc4Lszlgq9ep0jw23SJAZ3TVoUQj16rPXbeBIaagjtX95Yku7Mvrph9XGxYSH4OrGu0V7EouzT9DX-_wXCLqoTgxNGZg"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Ward" class="w-full h-full" data-alt="Item icon Ward" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPrNdOWsKFC_Y-PNiUfj6kBormm6dObwTyjuzgS_CfVbSobFvJi7Ze_X3w0pBVwhTZTwokzpujQ1-n63v9fwoGZvKKXL74opOLHXRr7qcun6_D-1Gux_Cy8HUEmQLwhYUY4eA6DYl48xZM9tjQZYhTeiDXZGDBcFPLEEbixX7hj-gvoHWobLX9DCTsAmVCsRjOXjHOScvUuJyqLMS_WYfa3mi3l7Nh5iPq_es9aViA2wNPbUowmVhK7iKWAM6wMPSQ2ZKWUmIx6Ao"/></div>
+</div>
+</div>
+<button class="w-8 sm:w-10 bg-slate-900/50 hover:bg-primary/20 flex items-center justify-center text-slate-600 hover:text-primary transition-colors border-l border-slate-800">
+<span class="material-icons transform group-hover:rotate-180 transition-transform duration-300">expand_more</span>
+</button>
+</div>
+</div>
+<div class="group relative bg-surface-dark/80 hover:bg-surface-light border-l-[3px] border-l-secondary border-y border-r border-slate-800 rounded-r-sm p-0 transition-all duration-200 overflow-visible mt-2">
+<div class="absolute -left-[3px] top-0 bottom-0 w-[3px] bg-secondary shadow-neon-red"></div>
+<div class="relative flex flex-col sm:flex-row items-stretch min-h-[90px]">
+<div class="w-full sm:w-28 bg-gradient-to-b from-secondary/10 to-transparent p-3 flex flex-row sm:flex-col justify-between sm:justify-center border-b sm:border-b-0 sm:border-r border-slate-800/50">
+<div>
+<div class="text-secondary font-bold text-sm tracking-wide uppercase mb-1">Defeat</div>
+<div class="text-[10px] font-bold text-slate-400">Ranked Solo</div>
+</div>
+<div class="text-right sm:text-left mt-0 sm:mt-2">
+<div class="text-xs text-white font-mono">32m 40s</div>
+<div class="text-[10px] text-slate-500">5 hours ago</div>
+</div>
+</div>
+<div class="flex-1 p-3 flex flex-col sm:flex-row items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="relative w-12 h-12 shrink-0">
+<img alt="Ryze" class="w-full h-full rounded-sm border border-slate-600 object-cover grayscale opacity-80" data-alt="Champion icon Ryze" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy-a4DuPuumL6-Ay829p3R_7fnRNR6LlhHMi3zEtM9EV7rZ_7xcafDJKeOtLD96nm6IAWtbv7q-WHyt5dzhGriIwYTom2zXj8T1wencpoeTL9uHQhzFRjcTMwUwdiroxJsApjRjNSAHURDfKQMBLDC-5CIPa_ZMkCWSKQ8aOGFYlq4t7UvXfRWwwAE9JbpfXmR5cnhskQKKQEHPEUyDw0U6G3htqxfuh6Ytb2ejy2zl8pLmr90XpT4jkG8aQHPB0E8wf7i9j3hxK8"/>
+<div class="absolute -bottom-1 -right-1 bg-slate-900 text-[10px] font-bold text-white px-1 rounded-sm border border-slate-700">18</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Teleport" class="w-full h-full" data-alt="Teleport spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWyYOwE542NsOmDRvBIvwlxle5AGh7qGK-VDWWG_FLq2FSjGiUCTdAuRzzgjXHNAB9zIkmMuuDgJgTiac3X_1sE1oyYcFPTSAU_5MmA9XPazUoaIYe7972AxE-mcfXIPe5bwR_in75mcmXk2371XOydrVeQPgHOkFRSXLiDBeNxQ2Egx4Xmsaa2UT-n7aOwyV8Kq_8nH-gnqEZN4s2j2Pvb81Eezpe3QDlc8AT-Vp2kX4i6yIILrf3sAH6K4bIwRcCfRddx9n91mA"/></div>
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Flash" class="w-full h-full" data-alt="Flash spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRuPk9vb4_hoATIZodfSZQ1gsXH1zwWUF8f1c3pfyYuWeSyfOKpmMASLcyz-q3y7IX_7tRY-SCo_z9ip4uKypuUP_mY7a_68A62DmuIp9fNspbi5PoMRXIi27zXPGsPxvlofD4vVlA4x9jwCVkh82sv9-CQUtMQOW0FbZdWLivYbh26j3uGsbdeg6APTOZRKgLK0mS2iYg6T4YjEc3UvpefMTNDtbZu48CM8WhxukbTb4vzxTH_uyZyqS8owTYG8ICPuC6I076rPA"/></div>
+</div>
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R1</div>
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R2</div>
+</div>
+</div>
+</div>
+<div class="flex-1 text-center min-w-[120px] flex flex-col justify-center">
+<div class="text-xl font-bold text-white tracking-widest mb-1">
+                                    2<span class="text-slate-600 mx-1">/</span><span class="text-secondary">5</span><span class="text-slate-600 mx-1">/</span>1
+                                </div>
+<div class="text-xs text-slate-400 font-mono"><span class="text-slate-300 font-bold">0.60</span> KDA</div>
+</div>
+<div class="text-center sm:text-left w-24 hidden sm:block border-l border-slate-800 pl-4 h-full flex flex-col justify-center">
+<div class="text-xs text-slate-300 mb-1">CS 190 <span class="text-slate-500">(6.0)</span></div>
+<div class="text-xs text-secondary font-bold">P/Kill 20%</div>
+<div class="text-[10px] text-slate-500 mt-0.5">Control Ward 1</div>
+</div>
+<div class="flex gap-1 flex-wrap w-36 justify-center sm:justify-start content-center">
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="ROA" class="w-full h-full" data-alt="Item icon ROA" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNqY25dOxZhn-XC040gc6Z3I9SoyN2FUXAfFldfaHg8FOXwksDZ3hDZGNtBhZtC4n7DStA8vw_a98B8V4gBYfAtRhK5dzrh0p8VDFqfsvEv0YYhUTSOu3_B9RyLIKdA1pXVs5yMD7ML6c6wRDM7tdkztbxCmbXH86rgzUKTGIYrssoxeGWFdw0ODor7veikrg_jSfpDzK0YxvKlwDpCRZp4h8G8Z1B_5-jQ7q0isCSP3jDjBfuKf34TGMcCdB3aLU1JpIJYsFH_ek"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Seraphs" class="w-full h-full" data-alt="Item icon Seraphs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZYS9myeV2a1KZqCuYaLLe4CUtfJVeMtOuS9s1FnD56NZhFFSYUpMYXqQEeJMcra9yKj1YgX7ZZv3wyBYvPnlU_6DNpcs1lClOBXKEQGh9jqfbuf0VNEdJxzWcDMgZ8O-y9hUjpOo9hMw0Ja8g1CV8tQnz0LuOpL-kIwv4PGOG0OYc5mQr7s4Y4Ce2Gm-uIQKjR8MGvGtLijw4_1NQ41AaOkTOOGUk5QTELjA5g8E0pYqsa8nroOwzWM9fWOu6DKg_ajBbVeOJuSs"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Zhonyas" class="w-full h-full" data-alt="Item icon Zhonyas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq-4usZui2PxiIilxGzoz7-YPgk5nfgVsZaXijJiNV-Oc3qzrC2mRM8GJRHw55s9-VMLOF8pswEBLSVTffw5QhtI0uBHyZAr7FDqoYGqFVVCj_juK1XtlaV38Ap0E5bQBwsuqW3PPS9L-FFUsZScpf4AlQNK2US5EGG2cWP0N4JzhVAz9WgRrkaAXpmyvI6rAOsEGHFq5jQNilA7ynh51u3i5iHrcEoJKeFHBZlaXr5NSQcNPPjiWCTEghkxCahQie9LLnIhZ-Bl0"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700"></div> 
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Boots" class="w-full h-full" data-alt="Item icon Boots" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq2N0HMxSD-zQHKFu9dgCYrN1KpCHhYghfD2Q07iJl3iJQxHyFZEg6k8auhp3c9_tIlxA_slSBHtHYaQ74N7q2-KxX1HvDJM8SYMRQUzKOlKRBTdakE_1TzEQ72mqT4n5H-3tDe4ifmGgbCP7Zeo2FuIg9119hd93d_gSSZrKZlAUO_hq2WbHbue9odqRGNSoIvgOX4SxsgIucPpqqr9jJXZrhxKNdETQ6C-OsJBLaxAMpVEM9qaG-B1cq2QIxAkZFBLr_0WoPLr4"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Ward" class="w-full h-full" data-alt="Item icon Ward" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAHXipFmyc2Fx-iq95cMny4gSFT6sEFryeyIjShtE49ck_JzxqFoAacMnmyDHdemibnRrNR881O3dB8SYP0phTU2PuCpzteN4I4D-iBGaT9A3GOD4FIDkby4Buc7AVi_KMPgFe96h03NlEsF1yR24caKKAFIrnYXw_xtBruXZMVAg9f8rdLnhO667Fifvt0mg4uqtUDqn9tckesMyRcR6qVSJI3igq15lgRXuSKAB_LJ4H2YOxrj_h2kDGViiSk3EkJZ8zOVE_qcM"/></div>
+</div>
+</div>
+<button class="w-8 sm:w-10 bg-slate-900/50 hover:bg-secondary/20 flex items-center justify-center text-slate-600 hover:text-secondary transition-colors border-l border-slate-800">
+<span class="material-icons transform group-hover:rotate-180 transition-transform duration-300">expand_more</span>
+</button>
+</div>
+</div>
+<div class="group relative bg-surface-dark/80 hover:bg-surface-light border-l-[3px] border-l-primary border-y border-r border-slate-800 rounded-r-sm p-0 transition-all duration-200 overflow-visible mt-2">
+<div class="absolute -left-[3px] top-0 bottom-0 w-[3px] bg-primary shadow-[0_0_10px_2px_rgba(13,185,242,0.4)]"></div>
+<div class="relative flex flex-col sm:flex-row items-stretch min-h-[90px]">
+<div class="w-full sm:w-28 bg-gradient-to-b from-primary/10 to-transparent p-3 flex flex-row sm:flex-col justify-between sm:justify-center border-b sm:border-b-0 sm:border-r border-slate-800/50">
+<div>
+<div class="text-primary font-bold text-sm tracking-wide uppercase mb-1">Victory</div>
+<div class="text-[10px] font-bold text-slate-400">ARAM</div>
+</div>
+<div class="text-right sm:text-left mt-0 sm:mt-2">
+<div class="text-xs text-white font-mono">18m 45s</div>
+<div class="text-[10px] text-slate-500">1 day ago</div>
+</div>
+</div>
+<div class="flex-1 p-3 flex flex-col sm:flex-row items-center gap-4">
+<div class="flex items-center gap-3">
+<div class="relative w-12 h-12 shrink-0">
+<img alt="Azir" class="w-full h-full rounded-sm border border-slate-600 object-cover" data-alt="Champion icon Azir" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuNwhBxtGEenG88JZ9DIJ5dbW_84yjhRIBr9P9h4X5xLC-RQQlbrFvZp3AR4to9iWVAEaoocnT8Taro6Xd2-v0pGcleEZ1Tw8uZE3G58Oq1KUQvH3v7Z8zThURyt6nRiTiu7oj6Mdp252EvUs031HU6AY51cLLyIHJSkK9TnMEiX44PAKPdItNGjtxN09y4ORj23OSxF9294QSQxf_1qNoepNt5JLEYSoQ6_4JoJlIN9vt_5qc4GrewpRSamWEzWIN23fE-rpE89I"/>
+<div class="absolute -bottom-1 -right-1 bg-slate-900 text-[10px] font-bold text-white px-1 rounded-sm border border-slate-700">18</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Snowball" class="w-full h-full" data-alt="Snowball spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm4rvbheR9j4mqfK1DGW69xzZB3TxxGuhlts-l9RAtygG2hvkR1qFK-lkrVk94ksTAEmps38D00Cg-kAdDIw_gpJ0cK2K9sUNXBm_Mnfoe2AUsTMSErGjDYSJC5Iqmbmoy5OAW5QA6cpcwfpCwABHOiYKYyPmaOZitCDCqCrDHsWpT-YV3pkYWSa13K4FcX93B6HWVwfknghGx38qBaww4p_8s7BSwW6M1s8NBYdc82h_5Eow6Y_DmeTYeAn9qUX_f5rFczGxmWu8"/></div>
+<div class="w-5 h-5 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Flash" class="w-full h-full" data-alt="Flash spell icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5XZWK7ZBMwaOUqX2A7FTOZ2vzDDfi6mPO3z-tVxQ13t4o4aPDA0BQf4e0X-_r-qI0oZ9aCte6ijMj3ITSbbaKnou92jLhXge4dvE3fKAT7VvSHjLZw_yzD7XtEmm1M6KvK9tyiU7wFFHA7cY7kyJSljBSqV8APt95nZ6p-MQSozh3LYgy7i5k0XPUSgFv6pk1K-wrjHHwN0-0mLXHqRCO01BHiHFu1MzI_wpoEjxfMIjmFuiEoPWoDzQK9E563DSDaydnaMKbtHw"/></div>
+</div>
+<div class="flex gap-0.5">
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R1</div>
+<div class="w-5 h-5 bg-slate-800 rounded-full border border-slate-700 flex items-center justify-center text-[8px] text-slate-500">R2</div>
+</div>
+</div>
+</div>
+<div class="flex-1 text-center min-w-[120px] flex flex-col justify-center">
+<div class="text-xl font-bold text-white tracking-widest mb-1">
+                                    18<span class="text-slate-600 mx-1">/</span><span class="text-secondary">5</span><span class="text-slate-600 mx-1">/</span>24
+                                </div>
+<div class="text-xs text-slate-400 font-mono"><span class="text-white font-bold">8.40</span> KDA</div>
+<div class="mt-1">
+<span class="inline-block px-1.5 py-px bg-yellow-500/20 text-yellow-500 text-[9px] font-bold rounded-sm border border-yellow-500/30 uppercase tracking-wider shadow-[0_0_5px_rgba(234,179,8,0.2)]">MVP</span>
+</div>
+</div>
+<div class="text-center sm:text-left w-24 hidden sm:block border-l border-slate-800 pl-4 h-full flex flex-col justify-center">
+<div class="text-xs text-slate-300 mb-1">CS 85 <span class="text-slate-500">(4.5)</span></div>
+<div class="text-xs text-secondary font-bold">P/Kill 82%</div>
+</div>
+<div class="flex gap-1 flex-wrap w-36 justify-center sm:justify-start content-center">
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Nashors" class="w-full h-full" data-alt="Item icon Nashors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7bZMOzIuG8EjAPtTXGbAq1BkCW-K0kIJSqKr5JEWFlCw4YS89URHo6MNKzQDTpG2mdfrW8you8b03A4f8fQbpgJHuqhfqjfH35YGfR4GG-DQlVMS_mUYU3bIvvrlWeuwHdyazRdJ7atBEm8pPTJixrXkL6iLiuuI7rMiDE1DXjmT7yckrVLzDZehWSxLmcYL-2_nGZyqWXJ9HmUTxfdHEU5leNxjw9hxiRf8U7szUjUOzAVYh4axyDyupziqt1DDwGWC7-nTmpkg"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Liandrys" class="w-full h-full" data-alt="Item icon Liandrys" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtx6Tvtt9EVlk-GBBrsegwf491zyGmHQ8g4fSakPhAiTSnvTLLmm13rkjcZqAyhzi666YMSQ4YT00Nf2E5GeYCXPTp9UxC7lKUfqqs83xI1R5CLj4YmENS7SVkqPwS9kQDbPImSJhvDm5DQ43mwjddEqlozWPpXmc8kgk3lJ12zuozkLSpRi340sj6G6rqDAxrBqUnOYTNDrYlIsJdxJJhEtSdALshjuqzNyGSpSf3yEazC3_1WR-bGMdm7ahvb9HV7MVxha550IE"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Rylais" class="w-full h-full" data-alt="Item icon Rylais" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM1aexYi81t9vD0YtR1xJK-hkcnfB932ZdFuPx-e-6wsEmP47qogXrRLQyXt1Sx-yGMkafLXHCbS5Zk1Lm5GwZo8bX2H_at27WqW-Xj7yxvumujfTzZm6MZL0mhBVHft8geTZIaIX_yCu72s3iIEm4c3sAuhgspAzvPIClNg75dZ0s5Kxq-0wI6oI22iLEeSZMs1_3lG8ir5pP922sOM9RnWTRn2IirwRY12-ieqgLzSdExL_oXGQ8ut2gwBjHWpjao4s1uhldiHw"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Zhonyas" class="w-full h-full" data-alt="Item icon Zhonyas" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaLrD9BY28dB7-ZaLN0wZhv7ogeZGO2YoBu_A01nTveq7hm0oMDoSlS4tHI0OBmHRnK-uU0xlJNFfP-xQNdLz6EvYbiW-p6UVVS7xO4DyLlx-7Cj6ylnHIP5zD8JvoR4xe8wdBzv2ewj1j_UA2Hsti1brSaiwNzBAo052YDYlnGlO_D0BPeSBVCNNYU9OMaO3w8diR_QtIBuC-HTNjL0sNLNBeqWeZJzXWsP-tpXpwduTkrN82S6arM3TjOTEVAlW9O6qrQNN5vcg"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700 overflow-hidden"><img alt="Boots" class="w-full h-full" data-alt="Item icon Boots" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdDx3J2OZSBjB2K3_sgg3lhomNqy5DL_vKXE32oe-5Jp-5LhnzWHIeGGuckgeVghB9s6Edg18oBofaW5R8nU6dA0us9iGfB2G92cUXZ8APZ8mXtgqvGn0Ank_kuFjOmBWWlfF7qqZuMdb4jEgSHpwHEOPJZj-vzvhRU5p8_-JSUUGzlb9ur2P_DBEpG_77K2bNT49Xi93LqlLDjPBNGmQCvhmjdrKN6DvahKehHLF7X07qmT4gtjwvU3IUqKtGcoRMHOW35Ilpiys"/></div>
+<div class="w-8 h-8 bg-slate-800 rounded-sm border border-slate-700"></div> 
+</div>
+</div>
+<button class="w-8 sm:w-10 bg-slate-900/50 hover:bg-primary/20 flex items-center justify-center text-slate-600 hover:text-primary transition-colors border-l border-slate-800">
+<span class="material-icons transform group-hover:rotate-180 transition-transform duration-300">expand_more</span>
+</button>
+</div>
+</div>
+<button class="w-full py-4 bg-surface-dark border border-slate-800 text-slate-400 text-sm font-bold uppercase tracking-widest rounded-sm hover:bg-slate-800 hover:text-white hover:border-slate-700 transition-all shadow-sm">
+            Load More Matches
+        </button>
+</div>
+</div>
+</main>
+<footer class="bg-surface-dark border-t border-slate-800 py-8 mt-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-slate-500 text-xs">
+<p class="mb-2 uppercase tracking-wide">© 2023 Riot Stats Hub</p>
+<p class="text-slate-600">This project is not affiliated with Riot Games. League of Legends is a trademark of Riot Games, Inc.</p>
+</div>
+</footer>
+
+</body></html>

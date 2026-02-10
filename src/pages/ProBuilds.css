@@ -1,0 +1,197 @@
+.pb-header { margin-bottom: 1.5rem; }
+
+.pb-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.25rem;
+}
+
+.pb-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pb-loading, .pb-error, .pb-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 4rem 0;
+}
+
+/* Build Card */
+.pb-build-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pb-build-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.pb-build-card:hover {
+  border-color: var(--primary);
+  box-shadow: var(--neon-shadow);
+  transform: translateX(2px);
+}
+
+.pb-build-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+
+.pb-build-card.win .pb-build-bar {
+  background: var(--primary);
+  box-shadow: 0 0 8px rgba(13, 185, 242, 0.5);
+}
+
+.pb-build-card.loss .pb-build-bar {
+  background: var(--loss);
+  box-shadow: 0 0 8px rgba(255, 77, 77, 0.5);
+}
+
+/* Champion */
+.pb-build-champ {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+
+.pb-build-champ-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+.pb-build-spells {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pb-spell-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+/* Player info */
+.pb-build-player {
+  flex: 1;
+  min-width: 120px;
+}
+
+.pb-build-player-name {
+  font-weight: 700;
+  color: var(--text-white);
+  font-size: 0.929rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.pb-build-player-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.714rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+
+.pb-build-champ-name {
+  font-size: 0.786rem;
+  color: var(--text-secondary);
+  margin-top: 0.125rem;
+}
+
+/* KDA */
+.pb-build-kda {
+  text-align: center;
+  min-width: 80px;
+}
+
+.pb-build-kda-nums {
+  font-weight: 700;
+  font-size: 0.929rem;
+  color: var(--text-white);
+}
+
+.pb-build-result {
+  font-size: 0.643rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+}
+
+.pb-build-card.win .pb-build-result { color: var(--primary); }
+.pb-build-card.loss .pb-build-result { color: var(--loss); }
+
+/* Items */
+.pb-build-items {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.pb-item-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+/* Stats */
+.pb-build-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.125rem;
+  font-size: 0.786rem;
+  color: var(--text-muted);
+  min-width: 50px;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.spin { animation: spin 1s linear infinite; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .pb-build-card {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pb-build-items {
+    order: 10;
+    width: 100%;
+  }
+}

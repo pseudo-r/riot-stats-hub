@@ -1,0 +1,89 @@
+/* ── SummonerOverview (stitch dashboard) ───── */
+
+/* Stats row */
+.overview-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.overview-stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.overview-stat-body {
+  padding: 1rem;
+}
+
+.overview-stat-big {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.overview-stat-detail {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.857rem;
+  margin-top: 0.25rem;
+}
+
+/* Grid */
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.5rem;
+}
+
+/* Main */
+.overview-main {
+  min-width: 0;
+}
+
+.overview-history-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.overview-history-title {
+  font-size: 1.571rem;
+  font-weight: 700;
+  color: var(--text-white);
+  display: flex;
+  align-items: center;
+}
+
+.overview-history-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.overview-match-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-left: 3px; /* space for left bar */
+}
+
+/* Sidebar */
+.overview-sidebar {
+  min-width: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .overview-grid { grid-template-columns: 1fr; }
+  .overview-sidebar { order: -1; }
+}
+
+@media (max-width: 768px) {
+  .overview-stats-row { grid-template-columns: 1fr; }
+  .overview-history-header { flex-direction: column; gap: 1rem; }
+}

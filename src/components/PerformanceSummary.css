@@ -1,0 +1,15 @@
+.performance-summary {
+  margin-bottom: var(--space-xl);
+}
+
+.perf-badges {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .perf-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}

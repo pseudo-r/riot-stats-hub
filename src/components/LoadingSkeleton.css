@@ -1,0 +1,74 @@
+/* ── LoadingSkeleton ────────────────────────── */
+
+.skel-page {
+  padding: 1.5rem;
+}
+
+.skel-banner {
+  height: 10rem;
+  margin-bottom: 1.5rem;
+}
+
+.skel-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.skel-stat-card {
+  height: 5rem;
+}
+
+.skel-grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1rem;
+}
+
+.skel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skel-match-placeholder {
+  height: 5.5rem;
+}
+
+.skel-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.skel-matches {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skel-match-row {
+  display: flex;
+  height: 5.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.skel-match-inner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+}
+
+.skel-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .skel-grid { grid-template-columns: 1fr; }
+  .skel-row { grid-template-columns: 1fr; }
+  .skel-side { display: none; }
+}

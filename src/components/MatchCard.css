@@ -1,0 +1,255 @@
+/* ── MatchCard (stitch match rows) ──────────── */
+
+.match-row {
+  position: relative;
+  display: flex;
+  background: rgba(22, 38, 43, 0.8);
+  border: 1px solid var(--border-default);
+  border-left: none;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  overflow: visible;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+.match-row:hover { background: var(--bg-surface-light); }
+
+/* Left border bar */
+.match-bar {
+  position: absolute;
+  left: -3px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+}
+.match-bar-win {
+  background: var(--primary);
+  box-shadow: 0 0 10px 2px rgba(13, 185, 242, 0.4);
+}
+.match-bar-loss {
+  background: var(--secondary);
+  box-shadow: var(--shadow-neon-red);
+}
+
+.match-row-inner {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 90px;
+}
+
+/* ── Result panel ──────────────────────────── */
+.match-result {
+  width: 7rem;
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  border-right: 1px solid rgba(30, 41, 59, 0.5);
+}
+.match-result-win { background: linear-gradient(180deg, rgba(13, 185, 242, 0.1) 0%, transparent 100%); }
+.match-result-loss { background: linear-gradient(180deg, rgba(255, 77, 77, 0.1) 0%, transparent 100%); }
+
+.match-result-text {
+  font-weight: 700;
+  font-size: 0.857rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.match-mode {
+  font-size: 0.714rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.match-meta-bottom {
+  margin-top: auto;
+}
+
+.match-duration {
+  font-size: 0.786rem;
+  color: var(--text-white);
+  font-family: var(--font-display);
+}
+
+.match-ago {
+  font-size: 0.714rem;
+  color: var(--text-muted);
+}
+
+/* ── Champion area ─────────────────────────── */
+.match-champion-area {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.match-champ-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.match-champ-icon-wrap {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  flex-shrink: 0;
+}
+
+.match-champ-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(13, 185, 242, 0.3);
+  object-fit: cover;
+}
+
+.match-champ-loss {
+  filter: grayscale(0.3);
+  opacity: 0.8;
+  border-color: var(--border-default);
+}
+
+.match-champ-level {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--bg-dark);
+  font-size: 0.714rem;
+  font-weight: 700;
+  color: var(--text-white);
+  padding: 0 0.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+}
+
+/* Spells & Runes */
+.match-spells {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.match-spell-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.match-spell-box {
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--border-default);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+.match-spell-box img { width: 100%; height: 100%; }
+
+.match-rune-box {
+  width: 1.25rem;
+  height: 1.25rem;
+  background: var(--border-default);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  color: var(--text-muted);
+}
+
+/* ── KDA ───────────────────────────────────── */
+.match-kda {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 0.5rem;
+}
+
+.match-kda-numbers {
+  font-size: 1.286rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.1em;
+}
+
+.match-kda-sep {
+  color: var(--text-dark);
+  margin: 0 0.25rem;
+}
+
+.match-kda-ratio {
+  font-size: 0.786rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+/* ── Stats column ──────────────────────────── */
+.match-stats {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 6rem;
+  padding: 0.5rem 1rem;
+  border-left: 1px solid var(--border-default);
+  gap: 0.25rem;
+}
+
+.match-stat-line {
+  font-size: 0.786rem;
+  color: var(--text-secondary);
+}
+
+@media (min-width: 640px) {
+  .match-stats { display: flex; }
+}
+
+/* ── Items grid ────────────────────────────── */
+.match-items {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+  align-content: center;
+  width: 9rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+
+.match-item-box {
+  width: 2rem;
+  height: 2rem;
+  background: var(--border-default);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+.match-item-box img { width: 100%; height: 100%; }
+.match-item-loss { opacity: 0.7; }
+
+/* ── Expand button ─────────────────────────── */
+.match-expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  background: rgba(15, 23, 42, 0.5);
+  color: var(--text-dark);
+  border-left: 1px solid var(--border-default);
+  transition: all 0.15s;
+  font-size: 1.5rem;
+}
+.match-expand-win:hover { background: rgba(13, 185, 242, 0.2); color: var(--primary); }
+.match-expand-loss:hover { background: rgba(255, 77, 77, 0.2); color: var(--loss); }
+
+/* ── Responsive ────────────────────────────── */
+@media (max-width: 768px) {
+  .match-row-inner { flex-wrap: wrap; }
+  .match-result { width: 100%; flex-direction: row; justify-content: space-between; border-right: none; border-bottom: 1px solid rgba(30, 41, 59, 0.5); }
+  .match-items { width: auto; }
+  .match-expand { width: 100%; height: 2rem; border-left: none; border-top: 1px solid var(--border-default); }
+}
