@@ -1,7 +1,7 @@
-/* ── Riot Stats Hub – Design System (from stitch mockups) ── */
+/* ── Riot Stats Hub – Design System ── */
 
 :root {
-  /* Colors – exact stitch values */
+  /* Colors – */
   --primary: #0db9f2;
   --primary-dark: #0a9acb;
   --secondary: #ff4d4d;
@@ -89,7 +89,7 @@ input, select, button { font-family: inherit; }
 input, select { border: none; outline: none; }
 button { cursor: pointer; border: none; background: none; }
 
-/* ── Scrollbar (stitch) ────────────────────── */
+/* ── Scrollbar  ────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
 ::-webkit-scrollbar-thumb { background: #2d3b42; border-radius: 3px; }
@@ -102,7 +102,7 @@ button { cursor: pointer; border: none; background: none; }
   line-height: 1;
 }
 
-/* ── Scanline overlay (stitch global) ──────── */
+/* ── Scanline overlay  ──────── */
 .scanline-overlay {
   position: fixed;
   inset: 0;
@@ -130,7 +130,7 @@ button { cursor: pointer; border: none; background: none; }
   background-size: 40px 40px;
 }
 
-/* ── Clip-path utilities (stitch tactical) ── */
+/* ── Clip-path utilities  ── */
 .clip-corner-br {
   clip-path: polygon(100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 0);
 }
@@ -169,7 +169,7 @@ button { cursor: pointer; border: none; background: none; }
 .tracking-widest { letter-spacing: 0.1em; }
 .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ── Border utilities (stitch tech-border) ── */
+/* ── Border utilities  ── */
 .tech-border-b { border-bottom: 1px solid rgba(13, 185, 242, 0.15); }
 .tech-border-r { border-right: 1px solid rgba(13, 185, 242, 0.15); }
 .border-t-glow-blue { box-shadow: 0 -4px 10px -2px rgba(13, 185, 242, 0.3) inset; }
@@ -251,7 +251,7 @@ button { cursor: pointer; border: none; background: none; }
   border-color: rgba(234, 179, 8, 0.3);
 }
 
-/* ── Filter chips (stitch button group) ────── */
+/* ── Filter chips  ────── */
 .filter-bar {
   display: flex;
   padding: 0.125rem;

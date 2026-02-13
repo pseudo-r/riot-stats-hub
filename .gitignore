@@ -27,3 +27,7 @@ npm-debug.log*
 
 # Misc
 .gemini/
+
+# Test output
+test-results/
+playwright-report/

@@ -1,280 +1,144 @@
+<div align="center">
+
 # 🎮 Riot Stats Hub
 
-A multi-game stats tracker and data explorer for **League of Legends**, **Teamfight Tactics**, **Valorant**, and **Legends of Runeterra** — powered by the Riot Games API ecosystem.
+**A unified competitive analytics dashboard for the Riot Games ecosystem.**
 
-![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)
-![Express](https://img.shields.io/badge/Express-4-000000?logo=express&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)
-![CI](https://github.com/pseudo-r/riot-stats-hub/actions/workflows/ci.yml/badge.svg)
-![License](https://img.shields.io/badge/License-MIT-green)
+Track player stats, explore game data, and climb leaderboards across League of Legends, Teamfight Tactics, Valorant, and Legends of Runeterra — all in one place.
 
----
+[![CI](https://github.com/pseudo-r/riot-stats-hub/actions/workflows/ci.yml/badge.svg)](https://github.com/pseudo-r/riot-stats-hub/actions)
+![React 18](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
+![Vite 6](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)
+![Node 20](https://img.shields.io/badge/Node-20-339933?logo=node.js&logoColor=white)
+![License MIT](https://img.shields.io/badge/License-MIT-green)
 
-## ✨ Features
-
-### League of Legends
-- **Summoner Lookup** — Search any player by Riot ID, view rank, match history & stats
-- **Champion Database** — Browse all champions with icons and details
-- **Leaderboard** — Challenger / Grandmaster / Master rankings across all regions
-- **Pro Builds** — See what the pros are building
-
-### Teamfight Tactics
-- **Player Profiles** — TFT-specific rank and match data
-- **Champion Browser** — All TFT champions with cost, traits, abilities & stats
-- **Trait Explorer** — Every trait with scaling breakpoints
-- **Item Database** — 3,000+ items with recipes and composition breakdowns
-- **Augment Pool** — 1,400+ augments searchable by name
-- **Meta Comps** — Popular team compositions
-- **Leaderboard** — Regional TFT rankings
-
-### Valorant
-- **Agent Gallery** — All agents with abilities and role info
-- **Map Explorer** — Interactive map details
-- **Arsenal** — Full weapon database with damage stats and spray patterns
-- **Rank Tiers** — Competitive rank breakdown
-- **Game Modes** — Every mode explained
-- **Sprays, Player Cards & Buddies** — Cosmetic collections
-- **Leaderboard** — Regional competitive rankings
-
-### Legends of Runeterra
-- **Card Database** — 1,500+ collectible cards across all sets with full-art images
-- **Leaderboard** — LoR player rankings
+</div>
 
 ---
 
-## 🏗️ Tech Stack
+## Overview
 
-| Layer | Tech |
-|-------|------|
-| **Frontend** | React 18, React Router 6, Zustand |
-| **Build Tool** | Vite 6 |
-| **Backend** | Express 4 (API proxy) |
-| **Testing** | Vitest 4, React Testing Library, jsdom |
-| **CI/CD** | GitHub Actions (Node 18 + 20 matrix) |
-| **APIs** | Riot Games API, Community Dragon, Data Dragon, valorant-api.com |
-| **Styling** | Vanilla CSS with custom Glassmorphism design system |
+Riot Stats Hub is an open-source web app that aggregates player statistics, game databases, and competitive rankings from multiple Riot titles into a single, cohesive interface. It uses a secure Express backend to proxy Riot API requests, keeping your API key safe.
 
----
+### Supported Games
 
-## 📁 Project Structure
-
-```
-riot-stats-hub/
-├── .github/workflows/ci.yml   # CI/CD pipeline (test → build)
-├── index.html                  # Entry HTML
-├── vite.config.js              # Vite config (dev proxy + test config)
-├── package.json                # Dependencies & scripts
-├── src/
-│   ├── main.jsx                # React entry point
-│   ├── App.jsx                 # Route definitions
-│   ├── index.css               # Global styles & design tokens
-│   ├── api/                    # API modules
-│   │   ├── riotApi.js          # LoL Riot API calls
-│   │   ├── dataDragon.js       # LoL Data Dragon CDN
-│   │   ├── tftApi.js           # TFT Riot API calls
-│   │   ├── tftAssets.js        # TFT Community Dragon CDN
-│   │   ├── valorantApi.js      # Valorant Riot API calls
-│   │   ├── valorantAssets.js   # valorant-api.com CDN
-│   │   ├── lorApi.js           # LoR Riot API calls
-│   │   └── lorAssets.js        # LoR Data Dragon CDN
-│   ├── components/             # Shared UI components (Header, etc.)
-│   ├── pages/                  # Route page components (29 pages)
-│   ├── store/                  # Zustand state stores
-│   ├── tests/                  # Test suite (78 tests)
-│   │   ├── setup.js            # Test environment setup
-│   │   ├── stats.test.js       # Stats utility unit tests
-│   │   ├── riotApi.test.js     # API module tests (mocked)
-│   │   ├── useAuthStore.test.js    # Auth store tests
-│   │   ├── usePlayerStore.test.js  # Player store tests
-│   │   ├── Landing.test.jsx    # Landing page component tests
-│   │   ├── TftPages.test.jsx   # TFT page render tests
-│   │   ├── ValorantPages.test.jsx  # Valorant page render tests
-│   │   ├── Header.test.jsx     # Header component tests
-│   │   └── App.test.jsx        # Full app smoke test
-│   └── utils/                  # Helper utilities (stats, formatting)
-└── server/
-    ├── index.js                # Express server (Riot API proxy)
-    ├── routes/                 # API route handlers
-    ├── package.json            # Server dependencies
-    └── .env.example            # Environment variable template
-```
+| Game | Key Features |
+|------|-------------|
+| **League of Legends** | Summoner lookup, champion database, ranked leaderboards, pro builds |
+| **Teamfight Tactics** | Player profiles, 3,000+ items, 1,400+ augments, traits, meta comps |
+| **Valorant** | Agent gallery, map explorer, weapon arsenal, rank tiers, cosmetics |
+| **Legends of Runeterra** | 1,500+ card database with full-art images, player rankings |
 
 ---
 
-## 🚀 Getting Started
+## Tech Stack
+
+| | Technology |
+|-|-----------|
+| **Frontend** | React 18 · React Router 6 · Zustand |
+| **Backend** | Express 4 (API proxy with rate-limit retry) |
+| **Build** | Vite 6 |
+| **Testing** | Vitest · Playwright · React Testing Library |
+| **CI/CD** | GitHub Actions · Docker |
+| **Design** | Glassmorphism design system · Vanilla CSS |
+
+---
+
+## Quick Start
 
 ### Prerequisites
 
-- **Node.js** 18+
-- **Riot Games API Key** — get one at [developer.riotgames.com](https://developer.riotgames.com/)
+- [Node.js](https://nodejs.org/) 20+
+- [Riot API Key](https://developer.riotgames.com/) (free developer key)
 
-### 1. Clone the Repository
+### Setup
 
 ```bash
+# Clone & install
 git clone https://github.com/pseudo-r/riot-stats-hub.git
 cd riot-stats-hub
-```
+npm install && cd server && npm install && cd ..
 
-### 2. Install Dependencies
-
-```bash
-# Frontend
-npm install
-
-# Backend
-cd server
-npm install
-cd ..
-```
-
-### 3. Configure Environment
-
-```bash
-# Copy the example and fill in your API key
+# Configure API key
 cp server/.env.example server/.env
+# Edit server/.env → set RIOT_API_KEY=RGAPI-your-key-here
 ```
 
-Edit `server/.env`:
-```env
-RIOT_API_KEY=RGAPI-your-key-here
-PORT=3001
-```
-
-### 4. Run Development Servers
+Then start both servers in separate terminals:
 
 ```bash
-# Terminal 1 — Backend (API proxy on port 3001)
-cd server
-npm run dev
+# Terminal 1 — Backend (port 3001)
+cd server && npm run dev
+```
 
-# Terminal 2 — Frontend (Vite dev server on port 5173)
+```bash
+# Terminal 2 — Frontend (port 5173)
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-### 5. Build for Production
+### Docker
 
 ```bash
-npm run build
+docker compose up --build    # App → localhost:8080
 ```
 
-Output is in the `dist/` directory.
+---
+
+## Testing
+
+| Suite | Framework | Tests | Command |
+|-------|-----------|-------|---------|
+| **Unit & API** | Vitest + RTL | 76 | `npm run test:ci` |
+| **End-to-End** | Playwright | 12 | `npm run test:e2e` |
+
+Unit tests cover API modules, Zustand stores, utility functions, and component rendering. E2E tests verify page loads, game navigation, mobile menu, and app availability against the Docker container.
 
 ---
 
-## 🧪 Testing
+## CI/CD Pipeline
 
-The project uses **Vitest** with **React Testing Library** for a comprehensive test suite.
-
-### Running Tests
-
-```bash
-# Interactive watch mode (development)
-npm test
-
-# Single run (CI mode)
-npm run test:ci
-
-# With coverage report
-npm run test:coverage
-```
-
-### Test Coverage
-
-| Category | File | Tests |
-|----------|------|-------|
-| **Utilities** | `stats.test.js` | 20 — Win rate, KDA, CS/min, kill participation, formatting |
-| **API Layer** | `riotApi.test.js` | 12 — All endpoints with mocked Axios |
-| **State (Auth)** | `useAuthStore.test.js` | 10 — Login/logout, favorites, preferences |
-| **State (Player)** | `usePlayerStore.test.js` | 8 — Region mapping, state reset |
-| **Landing Page** | `Landing.test.jsx` | 9 — Rendering, search validation, interactions |
-| **TFT Pages** | `TftPages.test.jsx` | 3 — Champions, Items, Augments |
-| **Valorant Pages** | `ValorantPages.test.jsx` | 3 — Agents, Maps, Weapons |
-| **Components** | `Header.test.jsx`, `App.test.jsx` | 2 — Smoke tests |
-| | **Total** | **78 tests** |
-
----
-
-## 🔄 CI/CD
-
-The project uses **GitHub Actions** for continuous integration.
-
-### Pipeline
+Every push and PR to `main` triggers a three-stage pipeline:
 
 ```
-Push / PR to main
-       │
-       ▼
-┌─────────────┐
-│   Test Job   │  ← Unit & API tests (Node 18 + 20)
-│  npm run     │
-│  test:ci     │
-└──────┬──────┘
-       │ ✅ All 78 tests pass
-       ▼
-┌─────────────┐
-│   E2E Job    │  ← Docker + Playwright (12 smoke tests)
-│  npm run     │
-│  test:e2e    │
-└──────┬──────┘
-       │ ✅ All E2E tests pass
-       ▼
-┌─────────────┐
-│  Build Job   │  ← Production bundle (Node 20)
-│  npm run     │
-│  build       │
-└──────┬──────┘
-       │
-       ▼
-  Upload dist/
-  artifact (7 days)
+Unit & API Tests  →  E2E Tests (Docker + Playwright)  →  Production Build
 ```
 
-- **Triggers:** Every push and pull request to `main` / `master`
-- **Matrix:** Unit tests run on Node.js 18.x and 20.x
-- **Gate:** Each job only runs if the previous one passes
-- **Artifacts:** Production bundle uploaded for 7 days; Playwright report uploaded on failure
+Each stage gates the next — if tests fail, the pipeline stops.
 
-### GitHub Secrets Setup
+### Required: GitHub Secrets
 
-The E2E job builds the Docker container, which requires your Riot API key. You **must** add it as a GitHub Secret:
+The E2E stage builds a Docker container that needs your API key:
 
-1. Go to your repo → **Settings** → **Secrets and variables** → **Actions**
-2. Click **New repository secret**
-3. Name: `RIOT_API_KEY`
-4. Value: Your Riot API key from [developer.riotgames.com](https://developer.riotgames.com/)
-5. Click **Add secret**
+1. Go to **Settings → Secrets and variables → Actions**
+2. Add a secret named `RIOT_API_KEY` with your key
 
-> ⚠️ **Note:** Development API keys expire every 24 hours. Apply for a [Production API Key](https://developer.riotgames.com/) to avoid CI failures.
+> ⚠️ Development keys expire every 24 hours. [Apply for a production key](https://developer.riotgames.com/) for stable CI.
 
 ---
 
-## 🔑 API Keys & Security
+## Security
 
-- **Never commit `.env` files** — they are gitignored by default
-- The backend server proxies all Riot API requests so your key is never exposed to the browser
-- Riot development keys expire every 24 hours; get a production key for persistent use
-- For CI/CD, add your key as a `RIOT_API_KEY` GitHub Secret (see [setup above](#github-secrets-setup))
-
----
-
-## 📡 Data Sources
-
-| Source | Used For |
-|--------|----------|
-| [Riot Games API](https://developer.riotgames.com/) | Summoner data, match history, leaderboards |
-| [Community Dragon](https://communitydragon.org/) | TFT champion/item/augment data & icons |
-| [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) | LoL champion data, LoR card sets |
-| [valorant-api.com](https://valorant-api.com/) | Valorant agents, maps, weapons, cosmetics |
+- API keys are **never exposed to the browser** — all Riot API calls are proxied through the Express backend
+- `.env` files are gitignored by default
+- Rate limiting with automatic 429 retry logic
 
 ---
 
-## 📄 License
+## Data Sources
 
-This project is open source under the [MIT License](LICENSE).
+| Source | Purpose |
+|--------|---------|
+| [Riot Games API](https://developer.riotgames.com/) | Player data, match history, leaderboards |
+| [Data Dragon](https://developer.riotgames.com/docs/lol#data-dragon) | Champion data, card sets |
+| [Community Dragon](https://communitydragon.org/) | TFT assets (champions, items, augments) |
+| [valorant-api.com](https://valorant-api.com/) | Agents, maps, weapons, cosmetics |
 
 ---
 
-*Riot Stats Hub isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.*
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
+
+---
+
+<sub>Riot Stats Hub isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</sub>

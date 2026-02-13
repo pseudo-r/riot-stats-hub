@@ -1,18 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/useAuthStore';
+import { PLATFORMS } from '../constants/platforms';
 import './Landing.css';
-
-const PLATFORMS = [
-  { id: 'na1', label: 'NA', region: 'americas' },
-  { id: 'euw1', label: 'EUW', region: 'europe' },
-  { id: 'eune1', label: 'EUNE', region: 'europe' },
-  { id: 'kr', label: 'KR', region: 'asia' },
-  { id: 'jp1', label: 'JP', region: 'asia' },
-  { id: 'br1', label: 'BR', region: 'americas' },
-  { id: 'oc1', label: 'OCE', region: 'americas' },
-  { id: 'tr1', label: 'TR', region: 'europe' },
-];
 
 function Landing() {
   const navigate = useNavigate();

@@ -32,7 +32,7 @@ import Register from './pages/Register';
 function App() {
   return (
     <>
-      {/* Global scanline overlay (stitch) */}
+      {/* Global scanline overlay */}
       <div className="scanline-overlay" />
       <Header />
       <Routes>

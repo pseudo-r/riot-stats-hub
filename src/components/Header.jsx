@@ -2,18 +2,8 @@ import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import usePlayerStore from '../store/usePlayerStore';
 import useAuthStore from '../store/useAuthStore';
+import { PLATFORMS } from '../constants/platforms';
 import './Header.css';
-
-const PLATFORMS = [
-  { id: 'na1', label: 'NA', region: 'americas' },
-  { id: 'euw1', label: 'EUW', region: 'europe' },
-  { id: 'eune1', label: 'EUNE', region: 'europe' },
-  { id: 'kr', label: 'KR', region: 'asia' },
-  { id: 'jp1', label: 'JP', region: 'asia' },
-  { id: 'br1', label: 'BR', region: 'americas' },
-  { id: 'oc1', label: 'OCE', region: 'americas' },
-  { id: 'tr1', label: 'TR', region: 'europe' },
-];
 
 function Header() {
   const navigate = useNavigate();
