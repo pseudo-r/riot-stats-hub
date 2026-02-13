@@ -1205,7 +1205,178 @@
 .lor-card-flavor { font-size: 0.75rem; color: var(--text-muted); font-style: italic; line-height: 1.45; margin: 0.5rem 0 0; }
 .lor-card-artist { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.375rem; }
 
+/* ── MOBILE RESPONSIVE ─────────────────────────────────────────── */
+
 @media (max-width: 700px) {
   .lor-card-detail-header { flex-direction: column; }
   .lor-card-detail-art { width: 100%; max-width: 240px; margin: 0 auto; }
+}
+
+@media (max-width: 640px) {
+
+  /* ─ Page header ────────────────────────────── */
+  .game-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .game-page-title { font-size: 1.15rem; }
+
+  /* ─ Hero section ───────────────────────────── */
+  .game-hero { padding: 1.5rem 1rem; }
+  .game-hero-heading { font-size: 1.15rem; }
+  .game-hero-search { flex-direction: column; gap: 0.5rem; }
+  .game-hero-select { border-right: 1px solid var(--border-color); border-radius: 2px; }
+  .game-hero-btn { border-radius: 2px; justify-content: center; padding: 0.75rem; }
+
+  /* ─ Tabs & filter chips: horizontal scroll ── */
+  .game-tabs,
+  .game-tier-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+  .game-tabs::-webkit-scrollbar,
+  .game-tier-tabs::-webkit-scrollbar { display: none; }
+
+  /* ─ Quick links: single column ─────────────── */
+  .game-quicklinks {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ Overview grid: single column ───────────── */
+  .game-overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ Search bar ─────────────────────────────── */
+  .game-search-bar { flex-direction: row; }
+
+  /* ─ Valorant Agents: 2 columns on mobile ──── */
+  .val-agents-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .val-agent-card { padding: 0.75rem 0.5rem; }
+  .val-agent-portrait-wrap { width: 56px; height: 56px; }
+  .val-agent-name { font-size: 0.786rem; }
+  .val-agent-abilities { gap: 0.25rem; }
+  .val-ability-icon { width: 20px; height: 20px; }
+
+  /* ─ Valorant Maps: single column ───────────── */
+  .val-maps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ Valorant Weapons: 2 columns ────────────── */
+  .weapons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .weapon-icon { height: 60px; }
+  .weapon-detail { padding: 0.75rem; }
+  .weapon-detail-header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .weapon-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .weapon-skins-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ─ Valorant Ranks: 3 columns ──────────────── */
+  .ranks-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .rank-icon-wrap { width: 48px; height: 48px; }
+  .rank-icon { width: 48px; height: 48px; }
+  .rank-name { font-size: 0.714rem; }
+
+  /* ─ Valorant Game modes: single column ─────── */
+  .gamemodes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ Valorant Sprays: 3 columns ─────────────── */
+  .sprays-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .spray-img { height: 72px; }
+
+  /* ─ Player Cards: 2 columns ────────────────── */
+  .playercards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* ─ Buddies: 3 columns ─────────────────────── */
+  .buddies-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* ─ TFT Champions: single column list ──────── */
+  .tft-champs-grid {
+    grid-template-columns: 1fr;
+  }
+  .tft-champ-detail { padding: 0.75rem; }
+  .tft-champ-detail-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .tft-champ-stats { grid-template-columns: repeat(2, 1fr); }
+
+  /* ─ TFT Traits: single column ──────────────── */
+  .tft-traits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ TFT Items: 3 columns ───────────────────── */
+  .tft-items-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  .tft-item-card { padding: 0.5rem; }
+  .tft-item-icon { width: 36px; height: 36px; }
+  .tft-item-name { font-size: 0.643rem; }
+  .tft-item-detail { padding: 0.75rem; }
+  .tft-item-detail-header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+
+  /* ─ TFT Augments: single column ────────────── */
+  .tft-augments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ TFT Comps: single column ───────────────── */
+  .comps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ─ LoR Cards: 2 columns ───────────────────── */
+  .lor-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+  .lor-card-detail { padding: 0.75rem; }
+  .lor-card-detail-header { flex-direction: column; }
+  .lor-card-detail-art { width: 100%; max-width: 200px; margin: 0 auto; }
+
+  /* ─ Table horizontal scroll ────────────────── */
+  .game-table-wrap { margin: 0 -0.5rem; }
+  .game-table { font-size: 0.75rem; }
+  .game-table th,
+  .game-row td { padding: 0.375rem 0.5rem; }
+
+  /* ─ Match list compact ─────────────────────── */
+  .game-match-row { gap: 0.5rem; padding: 0.375rem 0.5rem; font-size: 0.75rem; }
+  .game-match-units { gap: 0.125rem; }
+  .game-match-unit { font-size: 0.571rem; padding: 0.0625rem 0.25rem; }
+
+  /* ─ Game selector compact ──────────────────── */
+  .game-selector { gap: 0.125rem; }
+  .game-selector-btn { padding: 0.25rem 0.5rem; font-size: 0.643rem; }
+
+  /* ─ Sunset banner ──────────────────────────── */
+  .game-sunset-banner { font-size: 0.75rem; padding: 0.5rem 0.75rem; }
+
+  /* ─ Equippables: 2 columns ─────────────────── */
+  .equippables-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

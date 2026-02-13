@@ -44,6 +44,12 @@
   /* Layout */
   --header-height: 64px;
   --max-width: 80rem;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(22, 38, 43, 0.6);
+  --glass-border: rgba(13, 185, 242, 0.15);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
 /* ── Reset & Base ────────────────────────────── */
@@ -393,4 +399,23 @@ button { cursor: pointer; border: none; background: none; }
 /* ── Responsive ────────────────────────────── */
 @media (max-width: 768px) {
   html { font-size: 13px; }
+}
+
+/* Utility for glassmorphism panels */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-md);
+}
+
+.glass-header {
+  background: rgba(16, 30, 34, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-default);
+  position: sticky;
+  top: 0;
+  z-index: 40;
 }

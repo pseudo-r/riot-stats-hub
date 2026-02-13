@@ -45,10 +45,15 @@ function Header() {
     setSearchInput('');
   };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
   return (
-    <nav className="header">
+    <>
+    <nav className="header glass-header">
       <div className="header-inner">
-        {/* Left: Logo + Game Selector + Nav */}
+        {/* Left: Logo + Game Selector + Hamburger */}
         <div className="header-left">
           <Link to="/" className="header-logo">
             <span className="material-icons header-logo-icon">bolt</span>
@@ -57,35 +62,30 @@ function Header() {
 
           <div className="header-divider" />
 
-          {/* Game Selector */}
-          <div className="header-games">
+          {/* Game Selector (Desktop) */}
+          <div className="header-games desktop-only">
             <Link to="/" className={`header-game-pill ${activeGame === 'lol' ? 'active lol' : ''}`}>LoL</Link>
             <Link to="/tft" className={`header-game-pill ${activeGame === 'tft' ? 'active tft' : ''}`}>TFT</Link>
             <Link to="/valorant" className={`header-game-pill ${activeGame === 'valorant' ? 'active val' : ''}`}>VAL</Link>
             <Link to="/lor" className={`header-game-pill ${activeGame === 'lor' ? 'active lor' : ''}`}>LoR</Link>
           </div>
 
-          <div className="header-divider" />
+          <div className="header-divider desktop-only" />
 
-          {/* Game-specific nav links */}
-          <div className="header-nav">
+          {/* Game-specific nav links (Desktop) */}
+          <div className="header-nav desktop-only">
             {activeGame === 'lol' && (
               <>
                 <Link to="/" className={`header-nav-link ${path === '/' || path.startsWith('/summoner') ? 'active' : ''}`}>Overview</Link>
                 <Link to="/champions" className={`header-nav-link ${path === '/champions' ? 'active' : ''}`}>Champions</Link>
                 <Link to="/leaderboards" className={`header-nav-link ${path === '/leaderboards' ? 'active' : ''}`}>Leaderboards</Link>
-                <Link to="/pro-builds" className={`header-nav-link ${path === '/pro-builds' ? 'active' : ''}`}>Pro Builds</Link>
               </>
             )}
             {activeGame === 'tft' && (
               <>
                 <Link to="/tft" className={`header-nav-link tft ${path === '/tft' ? 'active' : ''}`}>Overview</Link>
-                <Link to="/tft/leaderboard" className={`header-nav-link tft ${path === '/tft/leaderboard' ? 'active' : ''}`}>Leaderboard</Link>
-                <Link to="/tft/comps" className={`header-nav-link tft ${path === '/tft/comps' ? 'active' : ''}`}>Meta Comps</Link>
+                <Link to="/tft/comps" className={`header-nav-link tft ${path === '/tft/comps' ? 'active' : ''}`}>Comps</Link>
                 <Link to="/tft/champions" className={`header-nav-link tft ${path === '/tft/champions' ? 'active' : ''}`}>Champions</Link>
-                <Link to="/tft/traits" className={`header-nav-link tft ${path === '/tft/traits' ? 'active' : ''}`}>Traits</Link>
-                <Link to="/tft/items" className={`header-nav-link tft ${path === '/tft/items' ? 'active' : ''}`}>Items</Link>
-                <Link to="/tft/augments" className={`header-nav-link tft ${path === '/tft/augments' ? 'active' : ''}`}>Augments</Link>
               </>
             )}
             {activeGame === 'valorant' && (
@@ -93,28 +93,20 @@ function Header() {
                 <Link to="/valorant" className={`header-nav-link val ${path === '/valorant' ? 'active' : ''}`}>Overview</Link>
                 <Link to="/valorant/agents" className={`header-nav-link val ${path === '/valorant/agents' ? 'active' : ''}`}>Agents</Link>
                 <Link to="/valorant/maps" className={`header-nav-link val ${path === '/valorant/maps' ? 'active' : ''}`}>Maps</Link>
-                <Link to="/valorant/weapons" className={`header-nav-link val ${path === '/valorant/weapons' ? 'active' : ''}`}>Arsenal</Link>
-                <Link to="/valorant/ranks" className={`header-nav-link val ${path === '/valorant/ranks' ? 'active' : ''}`}>Ranks</Link>
-                <Link to="/valorant/game-modes" className={`header-nav-link val ${path === '/valorant/game-modes' ? 'active' : ''}`}>Modes</Link>
-                <Link to="/valorant/sprays" className={`header-nav-link val ${path === '/valorant/sprays' ? 'active' : ''}`}>Sprays</Link>
-                <Link to="/valorant/player-cards" className={`header-nav-link val ${path === '/valorant/player-cards' ? 'active' : ''}`}>Cards</Link>
-                <Link to="/valorant/buddies" className={`header-nav-link val ${path === '/valorant/buddies' ? 'active' : ''}`}>Buddies</Link>
-                <Link to="/valorant/leaderboard" className={`header-nav-link val ${path === '/valorant/leaderboard' ? 'active' : ''}`}>Leaderboard</Link>
               </>
             )}
             {activeGame === 'lor' && (
               <>
                 <Link to="/lor" className={`header-nav-link lor ${path === '/lor' ? 'active' : ''}`}>Overview</Link>
-                <Link to="/lor/leaderboard" className={`header-nav-link lor ${path === '/lor/leaderboard' ? 'active' : ''}`}>Leaderboard</Link>
-                <Link to="/lor/cards" className={`header-nav-link lor ${path === '/lor/cards' ? 'active' : ''}`}>Card Database</Link>
+                <Link to="/lor/cards" className={`header-nav-link lor ${path === '/lor/cards' ? 'active' : ''}`}>Cards</Link>
               </>
             )}
           </div>
         </div>
 
-        {/* Right: Search + User */}
+        {/* Right: Search + User + Mobile Toggle */}
         <div className="header-right">
-          <form className="header-search" onSubmit={handleSearch}>
+          <form className="header-search desktop-only" onSubmit={handleSearch}>
             <span className="material-icons header-search-icon">search</span>
             <input
               type="text"
@@ -125,25 +117,57 @@ function Header() {
             />
           </form>
 
-          <div className="header-user-area">
+          <div className="header-user-area desktop-only">
             {isLoggedIn ? (
-              <>
-                <div className="header-user-info">
-                  <span className="header-user-name">{user?.username}</span>
-                </div>
-                <button className="header-avatar" onClick={logout}>
-                  <span className="material-icons" style={{ fontSize: '1.5rem', color: 'var(--text-secondary)' }}>account_circle</span>
-                </button>
-              </>
+              <button className="header-avatar" onClick={logout}>
+                <span className="material-icons">logout</span>
+              </button>
             ) : (
               <Link to="/login" className="header-avatar">
-                <span className="material-icons" style={{ fontSize: '1.5rem', color: 'var(--text-secondary)' }}>account_circle</span>
+                <span className="material-icons">login</span>
               </Link>
             )}
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button className="mobile-menu-toggle" onClick={toggleMenu}>
+            <span className="material-icons">{isMenuOpen ? 'close' : 'menu'}</span>
+          </button>
         </div>
       </div>
     </nav>
+
+    {/* Mobile Menu – rendered OUTSIDE nav to escape backdrop-filter stacking context */}
+    {isMenuOpen && (
+      <div className="mobile-menu">
+        <div className="mobile-search">
+          <form onSubmit={(e) => { handleSearch(e); toggleMenu(); }}>
+            <input 
+              type="text" 
+              placeholder="Search..." 
+              value={searchInput}
+              onChange={e => setSearchInput(e.target.value)}
+            />
+          </form>
+        </div>
+        
+        <div className="mobile-games">
+           <Link to="/" onClick={toggleMenu} className={activeGame === 'lol' ? 'active' : ''}>LoL</Link>
+           <Link to="/tft" onClick={toggleMenu} className={activeGame === 'tft' ? 'active' : ''}>TFT</Link>
+           <Link to="/valorant" onClick={toggleMenu} className={activeGame === 'valorant' ? 'active' : ''}>VAL</Link>
+           <Link to="/lor" onClick={toggleMenu} className={activeGame === 'lor' ? 'active' : ''}>LoR</Link>
+        </div>
+
+        <div className="mobile-nav-links">
+          <Link to={`/${activeGame}`} onClick={toggleMenu}>Overview</Link>
+          {activeGame === 'lol' && <Link to="/champions" onClick={toggleMenu}>Champions</Link>}
+          {activeGame === 'tft' && <Link to="/tft/comps" onClick={toggleMenu}>Meta Comps</Link>}
+          {activeGame === 'valorant' && <Link to="/valorant/agents" onClick={toggleMenu}>Agents</Link>}
+          {activeGame === 'lor' && <Link to="/lor/cards" onClick={toggleMenu}>Cards</Link>}
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 

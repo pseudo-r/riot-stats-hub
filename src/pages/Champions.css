@@ -208,3 +208,38 @@
   padding: 3rem 0;
   color: var(--text-muted);
 }
+
+/* ── Mobile Responsive ────────────────────────── */
+@media (max-width: 640px) {
+  .champs-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  .champs-title { font-size: 1.15rem; }
+  .champs-search { width: 100%; }
+
+  .champs-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.25rem;
+  }
+  .champs-filters::-webkit-scrollbar { display: none; }
+
+  .champs-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .champ-card-img-wrap {
+    width: 64px;
+    height: 64px;
+  }
+
+  .champ-card-name {
+    font-size: 0.643rem;
+    max-width: 70px;
+  }
+}

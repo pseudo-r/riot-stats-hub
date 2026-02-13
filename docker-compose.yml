@@ -1,0 +1,9 @@
+services:
+  app:
+    build: .
+    container_name: riot-stats-hub
+    ports:
+      - "8080:80"
+    env_file:
+      - ./server/.env
+    restart: unless-stopped

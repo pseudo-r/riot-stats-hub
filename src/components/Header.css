@@ -242,3 +242,118 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
+
+/* Mobile Menu */
+.mobile-menu-toggle {
+  display: none;
+  color: var(--text-white);
+  font-size: 1.5rem;
+}
+
+.mobile-menu {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.25rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  z-index: 9999;
+  background: #101e22 !important;
+  border-top: 1px solid var(--border-default);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─ Mobile search ───────────────────── */
+.mobile-search {
+  margin-bottom: 1rem;
+}
+
+.mobile-search input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-white);
+  border-radius: var(--radius-sm);
+  font-size: 0.929rem;
+  font-family: var(--font-display);
+}
+
+.mobile-search input::placeholder {
+  color: var(--text-dark);
+}
+
+.mobile-search input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+/* ─ Mobile game selector ────────────── */
+.mobile-games {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-default);
+}
+
+.mobile-games a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem 0.5rem;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.857rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.15s;
+}
+
+.mobile-games a.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(13, 185, 242, 0.1);
+  box-shadow: 0 0 10px rgba(13, 185, 242, 0.15);
+}
+
+/* ─ Mobile nav links ────────────────── */
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.mobile-nav-links a {
+  display: flex;
+  align-items: center;
+  padding: 0.875rem 1rem;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  font-size: 0.929rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  transition: all 0.15s;
+}
+
+.mobile-nav-links a:hover {
+  border-color: var(--primary);
+  color: var(--text-white);
+}
+
+@media (max-width: 1024px) {
+  .desktop-only { display: none !important; }
+  .mobile-menu-toggle { display: block; }
+}
